@@ -120,6 +120,7 @@ c3_chart_internal_fn.initParams = function () {
     $$.transiting = false;
 
     $$.color = $$.generateColor();
+    $$.style = $$.generateStyle();
     $$.levelColor = $$.generateLevelColor();
 
     $$.dataTimeFormat = config.data_xLocaltime ? d3.time.format : d3.time.format.utc;

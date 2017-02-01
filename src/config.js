@@ -43,6 +43,7 @@ c3_chart_internal_fn.getDefaultConfig = function () {
         data_regions: {},
         data_color: undefined,
         data_colors: {},
+        data_styles: {},
         data_hide: false,
         data_filter: undefined,
         data_selection_enabled: false,

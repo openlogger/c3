@@ -20,6 +20,12 @@ c3_chart_fn.load = function (args) {
             config.data_axes[id] = args.axes[id];
         });
     }
+    // update styles if exists
+    if ('styles' in args) {
+        Object.keys(args.styles).forEach(function (id) {
+            config.data_styles[id] = args.styles[id];
+        });
+    }
     // update colors if exists
     if ('colors' in args) {
         Object.keys(args.colors).forEach(function (id) {
