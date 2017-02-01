@@ -50,6 +50,7 @@ module.exports = (grunt) ->
               'src/subchart.js',
               'src/zoom.js',
               'src/color.js',
+              'src/style.js',
               'src/format.js',
               'src/cache.js',
               'src/class.js',

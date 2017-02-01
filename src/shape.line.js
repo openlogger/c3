@@ -45,6 +45,7 @@ c3_chart_internal_fn.updateLine = function (durationForExit) {
         .data($$.lineData.bind($$));
     $$.mainLine.enter().append('path')
         .attr('class', $$.classLine.bind($$))
+        .attr('style', $$.style)
         .style("stroke", $$.color);
     $$.mainLine
         .style("opacity", $$.initialOpacity.bind($$))
@@ -58,6 +59,7 @@ c3_chart_internal_fn.redrawLine = function (drawLine, withTransition) {
     return [
         (withTransition ? this.mainLine.transition(Math.random().toString()) : this.mainLine)
             .attr("d", drawLine)
+            .attr("style", this.style)
             .style("stroke", this.color)
             .style("opacity", 1)
     ];

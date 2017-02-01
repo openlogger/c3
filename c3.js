@@ -125,6 +125,7 @@
         $$.transiting = false;
 
         $$.color = $$.generateColor();
+        $$.style = $$.generateStyle();
         $$.levelColor = $$.generateLevelColor();
 
         $$.dataTimeFormat = config.data_xLocaltime ? d3.time.format : d3.time.format.utc;
@@ -1110,6 +1111,7 @@
             data_regions: {},
             data_color: undefined,
             data_colors: {},
+            data_styles: {},
             data_hide: false,
             data_filter: undefined,
             data_selection_enabled: false,
@@ -2888,6 +2890,7 @@
             .data($$.lineData.bind($$));
         $$.mainLine.enter().append('path')
             .attr('class', $$.classLine.bind($$))
+            .attr('style', $$.style)
             .style("stroke", $$.color);
         $$.mainLine
             .style("opacity", $$.initialOpacity.bind($$))
@@ -2901,6 +2904,7 @@
         return [
             (withTransition ? this.mainLine.transition(Math.random().toString()) : this.mainLine)
                 .attr("d", drawLine)
+                .attr("style", this.style)
                 .style("stroke", this.color)
                 .style("opacity", 1)
         ];
@@ -5777,6 +5781,30 @@
         } : null;
     };
 
+    c3_chart_internal_fn.generateStyle = function () {
+        var $$ = this, config = $$.config,
+            styles = config.data_styles,
+            callback = config.data_style;
+
+        return function (d) {
+            var id = d.id || (d.data && d.data.id) || d, style;
+
+            // if callback function is provided
+            if (styles[id] instanceof Function) {
+                style = styles[id](d);
+            }
+            // if specified, choose that style
+            else if (styles[id]) {
+                style = styles[id];
+            }
+            // if not specified, set to null
+            else {
+                style = null;
+            }
+            return callback instanceof Function ? callback(style, d) : style;
+        };
+    };
+
     c3_chart_internal_fn.getYFormat = function (forArc) {
         var $$ = this,
             formatForY = forArc && !$$.hasType('gauge') ? $$.defaultArcValueFormat : $$.yFormat,
@@ -6247,6 +6275,12 @@
         if ('axes' in args) {
             Object.keys(args.axes).forEach(function (id) {
                 config.data_axes[id] = args.axes[id];
+            });
+        }
+        // update styles if exists
+        if ('styles' in args) {
+            Object.keys(args.styles).forEach(function (id) {
+                config.data_styles[id] = args.styles[id];
             });
         }
         // update colors if exists
