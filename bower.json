@@ -1,5 +1,6 @@
 {
   "name": "c3",
+  "version": "en-2",
   "main": [
     "c3.css",
     "c3.js"
